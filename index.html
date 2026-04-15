@@ -72,7 +72,78 @@
     width: 600px;
     margin: 20px auto;
 }
+/* --- ГЛОБАЛЬНАЯ АДАПТИВНОСТЬ --- */
+@media (max-width: 600px) {
+    /* Исправляем шапку */
+    .header-text {
+        font-size: 18px; /* Уменьшаем шрифт заголовка */
+        padding: 15px 5px;
+    }
+    .header-text p {
+        margin: 4px 0;
+    }
 
+    /* Видео адаптируется автоматически из-за 90vw, но уберем лишние отступы */
+    .video-wrapper {
+        padding-bottom: 30px;
+    }
+
+    /* --- СЕКЦИЯ ДВЕРЕЙ --- */
+    .doors-wrapper {
+        gap: 5px; /* Уменьшаем расстояние между дверями */
+    }
+    .door-box {
+        width: 31%; /* Чтобы 3 двери влезли в ряд */
+        height: 180px; /* Фиксированная высота для мобильных */
+    }
+    .door-prize {
+        font-size: 18px;
+    }
+
+    /* --- ФОРМА ЗАКАЗА --- */
+    .order-section {
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+    .product-img {
+        width: 160px; /* Уменьшаем картинку товара */
+    }
+    .order-text {
+        font-size: 16px;
+    }
+    .free-label {
+        font-size: 26px;
+    }
+    .form-container {
+        width: 100%; /* Форма на всю ширину экрана */
+        max-width: none;
+    }
+
+    /* --- ОТЗЫВЫ (Самое важное) --- */
+    .container {
+        width: 100% !important; /* Убираем фиксированные 600px */
+        margin: 10px 0;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+    .comment {
+        margin-left: 0; /* Убираем огромный отступ слева */
+        padding: 10px;
+    }
+    .text {
+        font-size: 13px;
+    }
+    .image img {
+        width: 100% !important; /* Картинки в отзывах на всю ширину */
+        max-width: 150px;
+    }
+    .like {
+        float: none; /* Исправляем баг с лайком */
+        margin-left: 10px;
+        display: inline-block;
+    }
+}
 .comment {
     background: #fff;
     padding: 15px;
@@ -80,6 +151,8 @@
     margin-bottom: 15px;
     display: flex;
     gap: 10px;
+    margin-left:20px;
+
 }
 
 .avatar {
@@ -89,7 +162,8 @@
 }
 
 .content {
-    flex: 1;
+    flex: 1;  
+
 }
 
 .name {
@@ -100,6 +174,7 @@
 .text {
     margin: 5px 0;
     font-size: 14px;
+
 }
 
 .image {
@@ -115,10 +190,11 @@
     margin-top: 8px;
     font-size: 12px;
     color: #65676b;
+    
 }
 
 .like {
-    float: right;
+    float: right;margin-left: -1500px;
 }
     </style>
 </head>
@@ -223,7 +299,7 @@
         <div class="content">
             <div class="name">Лукас Штайнер</div>
             <div class="text">Взял попробовать, принимаю вторую неделю. Уже есть прогресс.</div>
-            <div class="actions">Нравится · Ответить <span class="like">👍 40</span></div>
+            <div class="actions">Нравится · Ответить<span class="like">👍 40</span></div> 
         </div>
     </div>
 
