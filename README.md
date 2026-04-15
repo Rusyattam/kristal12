@@ -1,1 +1,1 @@
-https://player.cloudinary.com/embed/?cloud_name=dfzclq4uk&public_id=kristall12_szbix7
+[Скачать видео](https://res.cloudinary.com/dfzclq4uk/video/upload/kristall12_szbix7.mp4)
