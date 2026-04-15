@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erosen Offer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ВЕРХНЮЮ ЧАСТЬ И ВИДЕО НЕ ТРОГАЕМ */
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #fff; }
+        .header-text { text-align: center; padding: 30px 10px; font-size: 28px; line-height: 1.1; color: #000; font-family: 'Arial Black', sans-serif; }
+        .header-text p { margin: 8px 0; }
+        .green-bg { background-color: #28a745; color: #fff; padding: 5px 15px; display: inline-block; border-radius: 4px; }
+        .video-wrapper { display: flex; justify-content: center; padding-bottom: 60px; transition: all 0.3s ease; }
+        .video-inner { position: relative; width: 450px; height: 800px; background: #000; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 50px rgba(0,0,0,0.3); }
+        @media (max-width: 500px) { .video-inner { width: 90vw; height: 160vw; } .header-text { font-size: 20px; } }
+        video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+        .video-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(40, 167, 69, 0.95); color: #fff; padding: 30px 20px; border-radius: 15px; text-align: center; cursor: pointer; z-index: 10; width: 85%; border: 3px solid #fff; box-sizing: border-box; display: block; }
+        .btn-main-text { font-size: 18px; font-weight: bold; text-transform: uppercase; }
+        .video-wrapper.fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 99999; padding: 0; display: flex; align-items: center; justify-content: center; }
+        .video-wrapper.fullscreen .video-inner { width: 100vw; height: 100vh; max-width: none; border-radius: 0; }
+        .video-wrapper.fullscreen video { object-fit: contain; pointer-events: auto; }
+        .close-btn { display: none; position: fixed; top: 25px; right: 25px; color: #fff; background: rgba(0, 0, 0, 0.6); border: 2px solid #fff; font-size: 40px; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; z-index: 100000; line-height: 55px; text-align: center; }
+
+        /* --- ОБНОВЛЕННАЯ СЕКЦИЯ ДВЕРЕЙ --- */
+        .game-section { max-width: 900px; margin: 50px auto; text-align: center; padding: 0 10px; }
+        .game-header { background: #3c4852; color: white; padding: 18px 10px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 22px; text-transform: uppercase; margin-bottom: 30px; letter-spacing: 0.5px; text-shadow: 1px 0px 0px rgba(255,0,0,0.7), -1px 0px 0px rgba(0,255,255,0.7); }
+        .doors-wrapper { display: flex; justify-content: center; gap: 15px; }
+        .door-box { position: relative; width: 250px; height: 550px; perspective: 1200px; }
+        .door-prize { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #ecf0f1; border: 4px solid #bdc3c7; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 50px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #e74c3c; box-shadow: inset 0 0 20px rgba(0,0,0,0.1); z-index: 1; box-sizing: border-box; }
+        .door-inner { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); transform-origin: left; cursor: pointer; }
+        .door-box:hover .door-inner { transform: rotateY(-25deg); }
+        .door-box.opened .door-inner { transform: rotateY(-130deg); }
+        .door-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border: 5px solid #2c3e50; border-radius: 10px; background-size: cover; background-position: center; box-sizing: border-box; }
+        .door-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; transform: rotateY(180deg); background: #7f8c8d; border: 5px solid #2c3e50; border-radius: 10px; box-sizing: border-box; }
+        .door-green .door-front { background-color: #458245; background-image: url('https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/door__hero-1.webp'); }
+        .door-gold .door-front { background-color: #f1c40f; background-image: url('https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/door__hero-2.webp'); }
+        .door-blue .door-front { background-color: #34495e; background-image: url('https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/door__hero-3.webp'); }
+
+        @media (max-width: 500px) { .door-box { width: 30%; height: 200px; } .door-prize { font-size: 20px; } .game-header { font-size: 14px; padding: 12px 5px; } }
+
+        /* --- СТИЛИ ФОРМЫ 1 В 1 С КАРТИНКИ --- */
+        .order-section { max-width: 600px; margin: 40px auto; text-align: center; font-family: 'Arial', sans-serif; }
+        .product-img { width: 220px; margin-bottom: 20px; }
+        .order-text { font-size: 20px; font-weight: bold; margin-bottom: 10px; line-height: 1.3; }
+        .timer-text { font-size: 22px; font-weight: bold; margin-bottom: 25px; }
+        #timer { color: #ff0000; font-size: 28px; }
+        .free-label { color: #ff0000; font-size: 32px; font-weight: bold; margin-bottom: 20px; display: block; }
+        
+        .form-container { max-width: 380px; margin: 0 auto; padding: 0 15px; }
+        .input-group { margin-bottom: 12px; position: relative; }
+        .input-group input { width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; outline: none; }
+        .input-group input::placeholder { color: #999; }
+        
+        /* Поле с флагом */
+        .phone-wrapper { display: flex; align-items: center; border: 1px solid #ccc; border-radius: 4px; background: #fff; overflow: hidden; }
+        .flag-box { display: flex; align-items: center; padding: 0 10px; border-right: 1px solid #ccc; background: #f8f8f8; cursor: pointer; }
+        .flag-box img { width: 24px; margin-right: 5px; }
+        .flag-box span { font-size: 16px; font-weight: normal; color: #333; }
+        .phone-wrapper input { border: none; padding: 15px 10px; flex: 1; font-size: 16px; }
+
+        .order-button { width: 100%; background: #ff0000; color: #fff; padding: 18px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.2s; }
+        .order-button:active { transform: scale(0.98); }
+
+        /* Модалка */
+        .hidden { display: none !important; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: white; padding: 30px; width: 90%; max-width: 500px; border-radius: 15px; text-align: center; font-family: sans-serif; }
+        .modal-content img { border-radius: 50%; width: 150px; height: 150px; margin-top: -80px; border: 5px solid #fff; }
+        .container {
+    width: 600px;
+    margin: 20px auto;
+}
+
+.comment {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.content {
+    flex: 1;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.text {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.image {
+    margin-top: 10px;
+}
+
+.image img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.actions {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #65676b;
+}
+
+.like {
+    float: right;
+}
+    </style>
+</head>
+<body>
+
+<div class="header-text">
+    <p>СМОТРИ ВИДЕО ДО КОНЦА И</p>
+    <p>УЗНАЙ, КАКИЕ <span class="green-bg">СЕКРЕТНЫЕ</span></p>
+    <p><span class="green-bg">КОМПОНЕНТЫ ПОМОГУТ ВЕРНУТЬ</span></p>
+    <p><span class="green-bg">МУЖСКУЮ СИЛУ И УВЕРЕННОСТЬ</span></p>
+    <p><span class="green-bg">ВСЕГО ЗА 3 ДНЯ!</span></p>
+</div>
+
+<div class="video-wrapper" id="mainContainer">
+    <div class="video-inner">
+        <video id="promoVideo" autoplay muted loop playsinline disablePictureInPicture>
+            <source src="kristall12.mp4" type="video/mp4">
+        </video>
+        <div id="playBtn" class="video-overlay">
+            <p>Видео уже началось</p>
+            <div class="mute-icon">
+                <svg viewBox="0 0 24 24" width="60" height="60" fill="white"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM19 12c0 3.12-1.86 5.8-4.5 6.97v2.05c3.75-1.25 6.5-4.8 6.5-8.98s-2.75-7.73-6.5-8.98v2.05c2.64 1.17 4.5 3.85 4.5 6.97zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.41.32-.85.59-1.32.82v2.04c1.02-.23 1.97-.67 2.8-1.28L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"></path></svg>
+            </div>
+            <p class="btn-main-text">Нажми, чтобы включить звук!</p>
+        </div>
+        <button id="closeVideo" class="close-btn">&times;</button>
+    </div>
+</div>
+
+<div id="door-container" class="game-section">
+    <div class="game-header">УГАДАЙ ЗА КАКОЙ ДВЕРЬЮ СКИДКА 100%</div>
+    <div class="doors-wrapper">
+        <div class="door-box door-green" onclick="handleDoorClick(this)">
+            <div class="door-prize"><span class="door-discount">?</span></div>
+            <div class="door-inner"><div class="door-front"></div><div class="door-back"></div></div>
+        </div>
+        <div class="door-box door-gold" onclick="handleDoorClick(this)">
+            <div class="door-prize"><span class="door-discount">?</span></div>
+            <div class="door-inner"><div class="door-front"></div><div class="door-back"></div></div>
+        </div>
+        <div class="door-box door-blue" onclick="handleDoorClick(this)">
+            <div class="door-prize"><span class="door-discount">?</span></div>
+            <div class="door-inner"><div class="door-front"></div><div class="door-back"></div></div>
+        </div>
+    </div>
+</div>
+
+<div id="custom-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <img src="data:image/png;base64,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" alt="Erosen" onerror="this.src='data:image/png;base64,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';">
+        <h2 style="font-family:'Montserrat', sans-serif; font-size:24px; margin:20px 0 10px;">Вы можете забрать Erosen</h2>
+        <p style="font-family:'Montserrat', sans-serif; font-size:26px; color:#e74c3c; font-weight:900; margin-bottom:25px;">со скидкой 100%!</p>
+        <button id="modal-ok-btn" style="padding:15px 50px; background:#27ae60; color:white; font-size:18px; font-weight:bold; border:none; border-radius:5px; cursor:pointer; text-transform:uppercase;">OK</button>
+    </div>
+</div>
+
+<div id="order-form" class="order-section hidden">
+    <img src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/kristall.jpg" alt="Erosen" class="product-img" onerror="this.src='https://via.placeholder.com/220x150?text=EROSEN+PACK';">
+    
+    <div class="order-text">
+        <p>Все что Вам нужно — это ввести имя и номер телефона.</p>
+        <p>Поторопитесь! У Вас осталось времени:</p>
+    </div>
+
+    <div class="timer-text"><span id="timer">10:00</span></div>
+
+    <span class="free-label">Бесплатно</span>
+
+    <div class="form-container">
+        <form id="tg-form">
+            <div class="input-group">
+                <input type="text" id="user-name" placeholder="Введите ваше имя" required>
+            </div>
+            
+            <div class="input-group">
+                <div class="phone-wrapper">
+                    <div class="flag-box">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAACfCAMAAABX0UX9AAAA3lBMVEX///8ftToAmbXPCCHVNEMFmbgAnbuhOVLQCCamRCoAvDsftTnl5eUAmLX///0AmrQAm7IAkrT7/////P8AlK4AmLr///oAkbMAkq4Ak7YAlLsAnLYAnLHh8vPn+Pv2/fwAmawAk6me1NwAnqqExdFzxdNissLT6+zu9vWW0dtLrsJwucsuo7et3eh4wtSk0t633eLa5+3S8/Vhwc3h+PKczt43psIAkL7z/vZct7xFrLyMx9mz1N7N5++Lx8+46efH6vZMtsfp7PXb6+WBztHD5Ofa+P8rqbGcztO05/CT5dMmAAAIc0lEQVR4nO2ciXLbRhJAZ5EdZbPrOXAMbpDgfYESKVmSTYmRpZiJ8v8/tDNDWWSVxUPb3lhG+lW5iigcBTx3z/Q0YBMHAUC+9w382KA+EKgPBOoDgfpAHNInBM2Ew5j9yRx55GWVVJsNJrY2qGCvvMW3zMHoEyxJgo7MmHJd5+hHl136/JuWN5vTKOuJV9/k2+WAPuam/fagQTTDwWjssuPCj06KeLNR+ZuzqDMc1yj8duvTKZu7bKTVeSFvcs61wqKnYzE/cEkqg3jKs9K1YcaC4JT0VWB/Z05ckTPqmot/u2f4juyJPppGvaaJO+55PieNwax9O1/dy+TAJcVZoyBh8XB+pTfcXmPeDIdFcaF9qfG8aITN+fsbPaR+y6f4buzRl3SWxPeMPxIOz8ZOnLiuK6rsUP6q8pJ72t+V8SyvTz9wn3sfU8cMfIv3RG90Xafe0cd04lWN0OdWnteVMaNUmHmYOYfiRjrpinjkhElhMjm60ZeYpDaTBRuHhN9GJa2HvV36aK6qhnXnN8my87qnjUtvuCS/Jjkzw10wJzMyC9YDIWvzO78RpPAbfxvs0Jclcs6bvtbXJHexmUdeAZ3cyWCyssWikyxWVfzxvDSlH6Xxp37UWS7At/1W2Jm8t6Hn23HvzmXsVfaEqlxGY5kpk7wllS5LnMy4lFTmVKTlSW1Kv136+lYe98JB/PIR+9iT6jUZ876wQ19ccDtnEG/xutD7m/GyPnZPPM8G3yhi9ajQ/j+8pE8mcmWHPW3w+GwTVG0qQpWzrd802xyVXx/bdvgReEmfUGXTqCN+ePuakU9u4jRPNvpytfVXIJO8TtH8kj5G7609vUCYHP+sTF48H6w6k40ySXubjSy5qLs+Sh/JGq86MnelYunk3BW2nUAzcbGMpDSTTsYEzRrROjCZCmRSLFjJ6twyoPHsSd/w2FlXlUF8x4Mo1ZqUE123eR4FxhB142BC7q8D60/S5ISMrqOg3vo+Pekr3CMvU86Kuc+LYrBgjrj9be435/OHsZYvbh7mjfBhUJxqX+l98ducDAfFJatxx4XGS77WNzhWn4qnYdgk769MQ19O9XovfL+geqGWlp+90Av5qZ1vWb8R+p7f1oGJ0bd9ighWeplSqUSrpNGK+EQpM+AJlt74HjmN7OsOFfQ9wmdRPULPOTT2PRwbJIwlXnPAT0tzeiceNue8G5sEpaxcegMybZnokwkd8QEvkvLbPcD35UV97PJp4vWPnXkF7Z9X7mhlykSZ9s+v3O6nxMw7QmW/993+78H6ysGnbjQ+r8/bjhfrPtZf69N135EPSp2q5TC3cy2MvsqMbbltsjisChSj5YlJXqmklEoFlTpwuR+Gl/RlNPee9M2i4y4jEsrMe2AnN91maUsWZbrNkimTwsJWhFLplR3LHVqbdduLizYaLJ+Sl+jxa1/76bkuFFoR1aZ0XCVZKvQOIU2PmjKp92XKtviVLveE9slqHX1ay4V9SeT54SjK9kyTasstY1ue1VZdp4S7VX3L2rcMNPFDaLulxPsj2b3yoOVWL0VS+Xwk62ydVdJte0mnNlWLs6fbbApn3/P4vm6zfNyqC9Wo8/wGSHUuN3uE2342xpxkBLjbN8cuffGM29eUHpkG9Ov4E2YUSxZeQNedKT1vqOaVzlhzqB4uu0OXZWZDKkddkafvgiiVMml+TIWeO+pRu+zQJ2inERKbwLwdpV8NV1qfTKMRuWi1bMypIP1IHqM4s9OsG634Ig7M1KGUaHX5RWo/stKOgwU5iwJ5/MdGb5td+lRSNWzTT/9ZZV99l6GLlC7hZqc3ESbXjWi9arvUosVU/2wSMlxoRUFX79BxbCvI5H6oT9AxPapzy2BN8sdwbc/jzR5zHT0xCLr1dV48/uA3w/PMZm/cmesq58M40EEm3V6T++FKmComdRYN7oXF1XoAyJemZXBx7FL6zbNbX5nKJQnNDMIJH36+cqMkieJWdfKUyWkw0jv7aWlrZJ27OvbSjo7TVEbmVYmitkfKkht9gYkt9UTCFpyEs+tDH2n9MOzWp4Rk3S9fWHncG66mZ4+reU886QvYsPGZrNbLEhnPyGNjGJjqWEjhDc7IY2wjVbWK4a/+0rYMhKIzb1R8qM+7zz3f9wnhJqI91LFjBRqPw1HGvnzvohZT6VZ/tpSdbPNplQTTMbNr3t4odsdT19bR9GrKXPmnXQAzKqZVGrfHf8WT/SXs/bpUMBqpi9uiGXLOw0G7z4KtvdTV43+Z22lFZ6qZJ6htDKRSH8byp0tkAdV27Z5cyZauZNhJPaZd54A+5phYa0WiqqrMjVyWZ5vVqlSZpIle55qFR85sm4BJaZPXZq0tF4VtGTBmWwZat0pYydTfYOxzjD5p6l6tgJkevHm/sxm1FKXGlFn4ms6AUSb01Gy2bT7LdcvAzNh60FsfZYptc0w9qhYH/10HENQHAvWBIBQBQE4QAORnBAD5CQGA+kCQfyIAyDuC/M+8Q30QUB8I1AcC9YFAfSBQHwjUBwL1gUB9IFAfCNQHAvWBQH0gUB8I1AcC9YFAfSBQHwjUBwL1gUB9IFAfCNQHAvWBQH0gUB8I1AcC9YFAfSBQHwjUBwL1gUB9IFAfCNQHAvWBQH0gUB8I1AcC9YFAfSBQHwjUBwL1gUB9IFAfCNQHAvWBQH0gUB+Id/h/GYDA/0kDBPkXAoD8ggAg/0YAkH8gAMh/EAAYfSBQHwjUBwL1gUB9IFAfCNQHAvWBQH0gUB8I1AcC9YFAfSBQHwjUBwL1gUB9IFAfCNQHAvWBQH0gUB8I1AcC9YFAfSBQHwjUBwL1gUB9IFAfCNQHAvWBQH0gUB8I1AcC9YFAfSBQHwjUBwL1gUB9IFAfCNQHAvWBQH0gUB8I1Afiv9uknYfI9Md+AAAAAElFTkSuQmCC" alt="UZ">
+                        <span>+998</span>
+                    </div>
+                    <input type="tel" id="user-phone" placeholder="ХХ ХХ ХХ" required>
+                </div>
+            </div>
+
+            <button type="submit" class="order-button ">ПОЛУЧИТЬ БЕСПЛАТНО</button>
+        </form>
+    </div>
+</div>
+<div class="container">
+
+    <div class="comment">
+        <div class="avatar"><img style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;" src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/m3.jpg" alt=""></div>
+        <div class="content">
+            <div class="name">Энцо Мартинес</div>
+            <div class="text">Я так рад! Как хорошо, что моя новая девушка так счастлива!</div>
+            <div class="actions">Нравится · Ответить <span class="like">👍 66</span></div>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="avatar"><img style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;" src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/m2.jpg" alt=""></div>
+        <div class="content">
+            <div class="name">Лукас Штайнер</div>
+            <div class="text">Взял попробовать, принимаю вторую неделю. Уже есть прогресс.</div>
+            <div class="actions">Нравится · Ответить <span class="like">👍 40</span></div>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="avatar"><img style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;" src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/m4.jpg"></div>
+        <div class="content">
+            <div class="name">Маттиас Седерберг</div>
+            <div class="text">Случайно наткнулся, решил попробовать.</div>
+            
+            <div class="image">
+                <img src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/kristall.jpg" alt="товар">
+            </div>
+
+            <div class="actions">Нравится · Ответить <span class="like">👍 9</span></div>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="avatar"><img style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;" src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/m7.jpg"></div>
+        <div class="content">
+            <div class="name">Николас Гринвуд</div>
+            <div class="text">Когда начались проблемы, нашёл в интернете. Помогло.</div>
+
+            <div class="image">
+                <img src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/kristall.jpg" alt="товар">
+            </div>
+
+            <div class="actions">Нравится · Ответить <span class="like">👍 81</span></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const mainContainer = document.getElementById('mainContainer');
+    const video = document.getElementById('promoVideo');
+    const playBtn = document.getElementById('playBtn');
+    const closeVideo = document.getElementById('closeVideo');
+
+    playBtn.addEventListener('click', () => {
+        mainContainer.classList.add('fullscreen');
+        video.muted = false; video.currentTime = 0; video.play();
+        playBtn.style.display = 'none'; closeVideo.style.display = 'block';
+        document.body.style.overflow = 'hidden'; 
+    });
+
+    closeVideo.addEventListener('click', (e) => {
+        e.stopPropagation(); mainContainer.classList.remove('fullscreen');
+        video.muted = true; playBtn.style.display = 'block';
+        closeVideo.style.display = 'none'; document.body.style.overflow = 'auto'; 
+    });
+
+    const token = '8686784975:AAFi-nQ8k19jjZlEC8a4SV0PVmhaSFN1-GI';
+    const chatId = '-5290685636';
+    let gameFinished = false;
+
+    function startTimer(duration) {
+        let timer = duration;
+        const display = document.querySelector('#timer');
+        const interval = setInterval(() => {
+            let min = Math.floor(timer / 60);
+            let sec = timer % 60;
+            display.textContent = `${String(min).padStart(2, '0')} : ${String(sec).padStart(2, '0')}`;
+            if (--timer < 0) {
+                timer = 0;
+                clearInterval(interval);
+            }
+        }, 1000);
+    }
+
+    function handleDoorClick(element) {
+        if (gameFinished) return;
+        gameFinished = true;
+        const prizeValue = element.querySelector('.door-discount');
+        prizeValue.textContent = '100%';
+        element.classList.add('opened');
+        const otherPrizes = ['50%', '25%'];
+        document.querySelectorAll('.door-box').forEach(door => {
+            if (door !== element) {
+                const disc = door.querySelector('.door-discount');
+                disc.textContent = otherPrizes.shift();
+                setTimeout(() => door.classList.add('opened'), 500);
+            }
+        });
+        setTimeout(() => {
+            const modal = document.getElementById('custom-modal');
+            modal.classList.remove('hidden');
+            document.getElementById('modal-ok-btn').onclick = function() {
+                modal.classList.add('hidden');
+                document.getElementById('door-container').classList.add('hidden');
+                const formSection = document.getElementById('order-form');
+                formSection.classList.remove('hidden');
+                formSection.scrollIntoView({ behavior: 'smooth' });
+                startTimer(600); // 10:00`
+            };
+        }, 1500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('tg-form');
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('user-name').value;
+                const phone = document.getElementById('user-phone').value;
+                
+                const text = `🚀 **Новый заказ: EROSEN**\n👤 Имя: ${name}\n📞 Тел: ${phone}`;
+                
+                try {
+                    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'Markdown' })
+                    });
+                    alert('Спасибо! Ваш заказ на бесплатный Erosen принят. Ожидайте звонка.');
+                } catch (error) {
+                    alert('Произошла ошибка. Попробуйте позже.');
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
