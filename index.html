@@ -24,16 +24,16 @@
         .close-btn { display: none; position: fixed; top: 25px; right: 25px; color: #fff; background: rgba(0, 0, 0, 0.6); border: 2px solid #fff; font-size: 40px; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; z-index: 100000; line-height: 55px; text-align: center; }
 
         /* --- ОБНОВЛЕННАЯ СЕКЦИЯ ДВЕРЕЙ --- */
-        .game-section { max-width: 100%; margin: 50px auto; text-align: center; padding: 0 10px; }
+        .game-section { max-width: 100%; margin: 50px auto; text-align: center; padding: 0 10px; box-sizing: border-box; }
         .game-header { background: #3c4852; color: white; padding: 18px 10px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 22px; text-transform: uppercase; margin-bottom: 30px; letter-spacing: 0.5px; text-shadow: 1px 0px 0px rgba(255,0,0,0.7), -1px 0px 0px rgba(0,255,255,0.7); }
         .doors-wrapper { display: flex; justify-content: center; gap: 15px; }
         .door-box { position: relative; width: 250px; height: 550px; perspective: 1200px; }
-        .door-prize { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #ecf0f1; border: 4px solid #bdc3c7; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 50px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #e74c3c; box-shadow: inset 0 0 20px rgba(0,0,0,0.1); z-index: 1; box-sizing: border-box; }
+        .door-prize { position: absolute; top: 0; left: 0; width: 100%; height: 300px; background: #ecf0f1; border: 4px solid #bdc3c7; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 50px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #e74c3c; box-shadow: inset 0 0 20px rgba(0,0,0,0.1); z-index: 1; box-sizing: border-box; }
         .door-inner { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); transform-origin: left; cursor: pointer; }
         .door-box:hover .door-inner { transform: rotateY(-25deg); }
         .door-box.opened .door-inner { transform: rotateY(-130deg); }
-        .door-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border: 5px solid #2c3e50; border-radius: 10px; background-size: cover; background-position: center; box-sizing: border-box; }
-        .door-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; transform: rotateY(180deg); background: #7f8c8d; border: 5px solid #2c3e50; border-radius: 10px; box-sizing: border-box; }
+        .door-front { position: absolute; width: 100%; height: 300px; backface-visibility: hidden;  border-radius: 10px; background-size: cover; background-position: center; box-sizing: border-box; }
+        .door-back { position: absolute; width: 100; height: 300px; backface-visibility: hidden; transform: rotateY(180deg); background: #7f8c8d; border: 5px solid #2c3e50; border-radius: 10px; box-sizing: border-box; }
         .door-green .door-front { background-color: #458245; background-image: url('https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/door__hero-1.webp'); }
         .door-gold .door-front { background-color: #f1c40f; background-image: url('https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/door__hero-2.webp'); }
         .door-blue .door-front { background-color: #34495e; background-image: url('https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/door__hero-3.webp'); }
@@ -41,26 +41,26 @@
         @media (max-width: 500px) { .door-box { width: 30%; height: 200px; } .door-prize { font-size: 20px; } .game-header { font-size: 14px; padding: 12px 5px; } }
 
         /* --- СТИЛИ ФОРМЫ 1 В 1 С КАРТИНКИ --- */
-        .order-section { max-width: 600px; margin: 40px auto; text-align: center; font-family: 'Arial', sans-serif; }
+        .order-section { max-width: 400px; margin: 40px auto; text-align: center; font-family: 'Arial', sans-serif; }
         .product-img { width: 220px; margin-bottom: 20px; }
         .order-text { font-size: 20px; font-weight: bold; margin-bottom: 10px; line-height: 1.3; }
         .timer-text { font-size: 22px; font-weight: bold; margin-bottom: 25px; }
         #timer { color: #ff0000; font-size: 28px; }
         .free-label { color: #ff0000; font-size: 32px; font-weight: bold; margin-bottom: 20px; display: block; }
         
-        .form-container { max-width: 380px; margin: 0 auto; padding: 0 15px; }
+        .form-container { max-width: 400px; margin: 0 auto; padding: 0 15px; }
         .input-group { margin-bottom: 12px; position: relative; }
-        .input-group input { width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; outline: none; }
+        .input-group input { width: 400px; padding: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; outline: none; }
         .input-group input::placeholder { color: #999; }
         
         /* Поле с флагом */
-        .phone-wrapper { display: flex; align-items: center; border: 1px solid #ccc; border-radius: 4px; background: #fff; overflow: hidden; }
+        .phone-wrapper { display: flex; position: relative;margin-left: 0px; width: 400px; border: 1px solid #ccc; border-radius: 4px; background: #fff; overflow: hidden; }
         .flag-box { display: flex; align-items: center; padding: 0 10px; border-right: 1px solid #ccc; background: #f8f8f8; cursor: pointer; }
         .flag-box img { width: 24px; margin-right: 5px; }
         .flag-box span { font-size: 16px; font-weight: normal; color: #333; }
         .phone-wrapper input { border: none; padding: 15px 10px; flex: 1; font-size: 16px; }
 
-        .order-button { width: 100%; background: #ff0000; color: #fff; padding: 18px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.2s; }
+        .order-button { width: 400px; background: #ff0000; color: #fff; padding: 18px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.2s; }
         .order-button:active { transform: scale(0.98); }
 
         /* Модалка */
@@ -283,6 +283,7 @@
         </form>
     </div>
 </div>
+<br><br><br> <br><br>
 <div class="container">
 
     <div class="comment">
