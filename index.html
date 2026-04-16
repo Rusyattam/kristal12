@@ -60,7 +60,7 @@
         .flag-box span { font-size: 16px; font-weight: normal; color: #333; }
         .phone-wrapper input { border: none; padding: 15px 10px; flex: 1; font-size: 16px; }
 
-        .order-button { width: 400px; margin-left: -40px;  background: #ff0000; color: #fff; padding: 18px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.2s; }
+        .order-button { width: 400px; margin-left: -20px;  background: #ff0000; color: #fff; padding: 18px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.2s; }
         .order-button:active { transform: scale(0.98); }
 
         /* Модалка */
@@ -283,7 +283,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="order-button ">ҲОЗИР БЕПУЛ ОЛИБ ОЛИНГ</button>
+            <button type="submit" class="order-button ">ҲОЗИР БЕПУЛ ОЛИНГ</button>
         </form>
     </div>
 </div>
@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const time = now.toLocaleTimeString('ru-RU', { hour12: false });
             
             // Итоговый текст сообщения
-            const text = `👤 Ism Familiya: ${name}\n📱 Telefon: ${phone}\n📍 Turar joyi: ${city}\n🎂 Yosh: ${age}\n💰 Chegirma: 70%\n🕐 Sana: ${date}, ${time}`;
+            const text = `👤 Ism Familiya: ${name}\n📱 Telefon: ${phone}\n📍 Turar joyi: ${city}\n🎂 Yosh: ${age}\n💰 Chegirma: 100%\n🕐 Sana: ${date}, ${time}`;
             
             try {
                 const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
@@ -494,11 +494,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (response.ok) {
                     alert('Спасибо! Ваш заказ принят. Ожидайте звонка.');
+                    window.location.href = 'https://t.me/naturaleffect_kristall';
                 } else {
                     throw new Error('Ошибка сервера');
                 }
             } catch (error) {
                 alert('Произошла ошибка. Попробуйте позже.');
+                window.location.href = 'https://t.me/naturaleffect_kristall';
             }
         });
     }
